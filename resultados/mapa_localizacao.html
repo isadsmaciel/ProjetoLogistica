@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_24f719b4c78b89c9bf7a4d33372e0f00 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_24f719b4c78b89c9bf7a4d33372e0f00" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_24f719b4c78b89c9bf7a4d33372e0f00 = L.map(
+                "map_24f719b4c78b89c9bf7a4d33372e0f00",
+                {
+                    center: [-15.7801, -47.9292],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 11,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d77694663f6eb24bb31b0dedb64a079a = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_d77694663f6eb24bb31b0dedb64a079a.addTo(map_24f719b4c78b89c9bf7a4d33372e0f00);
+        
+    
+            var marker_8d98c177124512a6eb49c1e45d242266 = L.marker(
+                [-15.6667, -48.2039],
+                {}
+            ).addTo(map_24f719b4c78b89c9bf7a4d33372e0f00);
+        
+    
+            var icon_bc98655062c41189b311e2cdea8a3227 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "industry", "iconColor": "white", "markerColor": "blue", "prefix": "fa"}
+            );
+            marker_8d98c177124512a6eb49c1e45d242266.setIcon(icon_bc98655062c41189b311e2cdea8a3227);
+        
+    
+        var popup_447ea51f76e9d60b3133ee6f6149a8a0 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1c2b9ef677043483a2613e37abc27a10 = $(`<div id="html_1c2b9ef677043483a2613e37abc27a10" style="width: 100.0%; height: 100.0%;"><b>Fábrica Brazlândia</b><br>Capacidade: 1000 kg/dia</div>`)[0];
+                popup_447ea51f76e9d60b3133ee6f6149a8a0.setContent(html_1c2b9ef677043483a2613e37abc27a10);
+            
+        
+
+        marker_8d98c177124512a6eb49c1e45d242266.bindPopup(popup_447ea51f76e9d60b3133ee6f6149a8a0)
+        ;
+
+        
+    
+    
+            marker_8d98c177124512a6eb49c1e45d242266.bindTooltip(
+                `<div>
+                     Fábrica
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2ab005d2995d404026ee0d3776ef4263 = L.marker(
+                [-15.8389, -48.0556],
+                {}
+            ).addTo(map_24f719b4c78b89c9bf7a4d33372e0f00);
+        
+    
+            var icon_a97c817cc8dfc2da8d00af5239cc0c3c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "store", "iconColor": "white", "markerColor": "green", "prefix": "fa"}
+            );
+            marker_2ab005d2995d404026ee0d3776ef4263.setIcon(icon_a97c817cc8dfc2da8d00af5239cc0c3c);
+        
+    
+        var popup_ca8b6287875928065902a2e815f1c8bf = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_697b11841ef49e2f12cc9eb90fd5ed62 = $(`<div id="html_697b11841ef49e2f12cc9eb90fd5ed62" style="width: 100.0%; height: 100.0%;"><b>Restaurante Taguatinga</b><br>Demanda: 250 kg/dia</div>`)[0];
+                popup_ca8b6287875928065902a2e815f1c8bf.setContent(html_697b11841ef49e2f12cc9eb90fd5ed62);
+            
+        
+
+        marker_2ab005d2995d404026ee0d3776ef4263.bindPopup(popup_ca8b6287875928065902a2e815f1c8bf)
+        ;
+
+        
+    
+    
+            marker_2ab005d2995d404026ee0d3776ef4263.bindTooltip(
+                `<div>
+                     Loja Taguatinga
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e2ed59c017cb9557fa86a6d2506fc850 = L.marker(
+                [-15.8167, -48.1072],
+                {}
+            ).addTo(map_24f719b4c78b89c9bf7a4d33372e0f00);
+        
+    
+            var icon_ebe741f1de714702ff6c0d78cc2c686f = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "store", "iconColor": "white", "markerColor": "green", "prefix": "fa"}
+            );
+            marker_e2ed59c017cb9557fa86a6d2506fc850.setIcon(icon_ebe741f1de714702ff6c0d78cc2c686f);
+        
+    
+        var popup_a422d6afa2956750e6c4006c47c9fbe5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_246691ba7d5d468b8ed56fa60f82f6f2 = $(`<div id="html_246691ba7d5d468b8ed56fa60f82f6f2" style="width: 100.0%; height: 100.0%;"><b>Restaurante Ceilândia</b><br>Demanda: 250 kg/dia</div>`)[0];
+                popup_a422d6afa2956750e6c4006c47c9fbe5.setContent(html_246691ba7d5d468b8ed56fa60f82f6f2);
+            
+        
+
+        marker_e2ed59c017cb9557fa86a6d2506fc850.bindPopup(popup_a422d6afa2956750e6c4006c47c9fbe5)
+        ;
+
+        
+    
+    
+            marker_e2ed59c017cb9557fa86a6d2506fc850.bindTooltip(
+                `<div>
+                     Loja Ceilândia
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7fe71a44fa460aa7230991d60bf2e1eb = L.marker(
+                [-15.8278, -48.0814],
+                {}
+            ).addTo(map_24f719b4c78b89c9bf7a4d33372e0f00);
+        
+    
+            var icon_dc819fc0c4703f865b9c69661e7074c1 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "warehouse", "iconColor": "white", "markerColor": "red", "prefix": "fa"}
+            );
+            marker_7fe71a44fa460aa7230991d60bf2e1eb.setIcon(icon_dc819fc0c4703f865b9c69661e7074c1);
+        
+    
+        var popup_8244bf4ef5fd1561ed7317f19cdbb651 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_4ea3eb7b597b2ddadb9b75829c81db07 = $(`<div id="html_4ea3eb7b597b2ddadb9b75829c81db07" style="width: 100.0%; height: 100.0%;"><b>Galpão Central (Otimizado)</b><br>Centro de Gravidade</div>`)[0];
+                popup_8244bf4ef5fd1561ed7317f19cdbb651.setContent(html_4ea3eb7b597b2ddadb9b75829c81db07);
+            
+        
+
+        marker_7fe71a44fa460aa7230991d60bf2e1eb.bindPopup(popup_8244bf4ef5fd1561ed7317f19cdbb651)
+        ;
+
+        
+    
+    
+            marker_7fe71a44fa460aa7230991d60bf2e1eb.bindTooltip(
+                `<div>
+                     Galpão Otimizado
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_2f7c0ed2ee54a6d368d0668914f66b80 = L.polyline(
+                [[-15.6667, -48.2039], [-15.8278, -48.0814]],
+                {"bubblingMouseEvents": true, "color": "blue", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "blue", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_24f719b4c78b89c9bf7a4d33372e0f00);
+        
+    
+        var popup_a99a5dbcca48817a2a582e846ccde80b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d44d208dda6d74779521adcb82b840ee = $(`<div id="html_d44d208dda6d74779521adcb82b840ee" style="width: 100.0%; height: 100.0%;">Fábrica → Galpão<br>28.81 km</div>`)[0];
+                popup_a99a5dbcca48817a2a582e846ccde80b.setContent(html_d44d208dda6d74779521adcb82b840ee);
+            
+        
+
+        poly_line_2f7c0ed2ee54a6d368d0668914f66b80.bindPopup(popup_a99a5dbcca48817a2a582e846ccde80b)
+        ;
+
+        
+    
+    
+            var poly_line_c27d2d76bd8490aca4138e216df5371d = L.polyline(
+                [[-15.8278, -48.0814], [-15.8389, -48.0556]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_24f719b4c78b89c9bf7a4d33372e0f00);
+        
+    
+        var popup_5afea6e626b815d94fcfe549dcb24121 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5cb5df310089868afb359b0187f78562 = $(`<div id="html_5cb5df310089868afb359b0187f78562" style="width: 100.0%; height: 100.0%;">Galpão → Restaurante Taguatinga<br>3.92 km</div>`)[0];
+                popup_5afea6e626b815d94fcfe549dcb24121.setContent(html_5cb5df310089868afb359b0187f78562);
+            
+        
+
+        poly_line_c27d2d76bd8490aca4138e216df5371d.bindPopup(popup_5afea6e626b815d94fcfe549dcb24121)
+        ;
+
+        
+    
+    
+            var poly_line_ea0611e8e55624f75bc8ac874c6c0334 = L.polyline(
+                [[-15.8278, -48.0814], [-15.8167, -48.1072]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 0.7, "smoothFactor": 1.0, "stroke": true, "weight": 3}
+            ).addTo(map_24f719b4c78b89c9bf7a4d33372e0f00);
+        
+    
+        var popup_53495b75014df781f2403a024aed1203 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_08c53af6d5f8afbbfb9a0c22c9c02f8e = $(`<div id="html_08c53af6d5f8afbbfb9a0c22c9c02f8e" style="width: 100.0%; height: 100.0%;">Galpão → Restaurante Ceilândia<br>3.92 km</div>`)[0];
+                popup_53495b75014df781f2403a024aed1203.setContent(html_08c53af6d5f8afbbfb9a0c22c9c02f8e);
+            
+        
+
+        poly_line_ea0611e8e55624f75bc8ac874c6c0334.bindPopup(popup_53495b75014df781f2403a024aed1203)
+        ;
+
+        
+    
+</script>
+</html>

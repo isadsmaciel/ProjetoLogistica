@@ -1,0 +1,59 @@
+================================================================================
+RELATÓRIO DE OTIMIZAÇÃO LOGÍSTICA - FULÔ DO AÇAÍ
+================================================================================
+
+Projeto: Etapa 1 - Implementação Determinística Clássica
+Aluno: Isadora da Silva Maciel - 190108991
+Universidade de Brasília - UnB
+
+--------------------------------------------------------------------------------
+MÓDULO 2: PREVISÃO DE DEMANDA
+--------------------------------------------------------------------------------
+
+Método 1: Holt-Winters
+  MAPE: 25.59%
+  RMSE: 155.28 kg
+
+Método 2: Regressão Linear Múltipla
+  MAPE: 10.15%
+  RMSE: 88.61 kg
+  R²: 0.8485
+
+--------------------------------------------------------------------------------
+MÓDULO 3: OTIMIZAÇÃO ESPACIAL
+--------------------------------------------------------------------------------
+
+Localização Ótima do Galpão:
+  Latitude: -15.827800
+  Longitude: -48.081400
+  Distância Fábrica → Galpão: 28.81 km
+
+Lote Econômico de Compra (EOQ):
+  Lote Ótimo: 3194.68 kg
+  Número de Pedidos/Ano: 71
+  Frequência: A cada 5.1 dias
+
+--------------------------------------------------------------------------------
+MÓDULO 4: ANÁLISE COMPARATIVA DE CENÁRIOS
+--------------------------------------------------------------------------------
+
+CENÁRIO A - Operação Atual:
+  Custo de Transporte: R$ 23,768.93/ano
+  Custo de Estoque: R$ 2,500.00/ano
+  Custo de Instalação: R$ 0.00/ano
+  CUSTO TOTAL: R$ 26,268.93/ano
+
+CENÁRIO B - Com Galpão Central:
+  Custo de Transporte: R$ 8,981.82/ano
+  Custo de Estoque: R$ 5,868.36/ano
+  Custo de Instalação: R$ 84,000.00/ano
+  CUSTO TOTAL: R$ 98,850.17/ano
+
+================================================================================
+CONCLUSÃO
+================================================================================
+
+❌ RECOMENDAÇÃO: Manter operação atual
+
+Custo Adicional: R$ 72,581.25
+Aumento de Custos: 276.30%
