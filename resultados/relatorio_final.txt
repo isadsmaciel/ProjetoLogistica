@@ -11,13 +11,13 @@ MÓDULO 2: PREVISÃO DE DEMANDA
 --------------------------------------------------------------------------------
 
 Método 1: Holt-Winters
-  MAPE: 25.59%
-  RMSE: 155.28 kg
+  MAPE: 23.70%
+  RMSE: 206.79 kg
 
 Método 2: Regressão Linear Múltipla
-  MAPE: 10.15%
-  RMSE: 88.61 kg
-  R²: 0.8485
+  MAPE: 9.57%
+  RMSE: 150.72 kg
+  R²: 0.7369
 
 --------------------------------------------------------------------------------
 MÓDULO 3: OTIMIZAÇÃO ESPACIAL
@@ -29,7 +29,7 @@ Localização Ótima do Galpão:
   Distância Fábrica → Galpão: 28.81 km
 
 Lote Econômico de Compra (EOQ):
-  Lote Ótimo: 3194.68 kg
+  Lote Ótimo: 3196.53 kg
   Número de Pedidos/Ano: 71
   Frequência: A cada 5.1 dias
 
@@ -44,10 +44,10 @@ CENÁRIO A - Operação Atual:
   CUSTO TOTAL: R$ 26,268.93/ano
 
 CENÁRIO B - Com Galpão Central:
-  Custo de Transporte: R$ 8,981.82/ano
-  Custo de Estoque: R$ 5,868.36/ano
+  Custo de Transporte: R$ 8,985.14/ano
+  Custo de Estoque: R$ 5,870.66/ano
   Custo de Instalação: R$ 84,000.00/ano
-  CUSTO TOTAL: R$ 98,850.17/ano
+  CUSTO TOTAL: R$ 98,855.80/ano
 
 ================================================================================
 CONCLUSÃO
@@ -55,5 +55,5 @@ CONCLUSÃO
 
 ❌ RECOMENDAÇÃO: Manter operação atual
 
-Custo Adicional: R$ 72,581.25
-Aumento de Custos: 276.30%
+Custo Adicional: R$ 72,586.88
+Aumento de Custos: 276.32%

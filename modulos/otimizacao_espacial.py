@@ -4,10 +4,11 @@ MÓDULO 3: OTIMIZAÇÃO ESPACIAL
 Implementa:
 1. Método do Centro de Gravidade - Localização ótima do galpão
 2. Lote Econômico de Compra (EOQ) - Dimensionamento de lotes
+3. Clusterização (K-Means) - Sugestão de múltiplos centros
 """
 
 import numpy as np
-
+from sklearn.cluster import KMeans
 
 class OtimizacaoEspacial:
     """
@@ -31,19 +32,7 @@ class OtimizacaoEspacial:
     
     def calcular_centro_gravidade(self):
         """
-        Método do Centro de Gravidade Ponderado
-        
-        Determina as coordenadas (X*, Y*) que minimizam o momento de transporte:
-        
-        X* = Σ(Vi * Xi) / Σ(Vi)
-        Y* = Σ(Vi * Yi) / Σ(Vi)
-        
-        Onde:
-        - Vi = Volume (demanda anual) do ponto i
-        - Xi, Yi = Coordenadas do ponto i
-        
-        Returns:
-            dict: Coordenadas ótimas e métricas
+        Método do Centro de Gravidade Ponderado (1 Galpão)
         """
         
         # Obter pontos de demanda (lojas)
@@ -90,23 +79,70 @@ class OtimizacaoEspacial:
         }
         
         return resultado
+        
+    def calcular_multiples_cg(self, n_clusters=2):
+        """
+        Sugere múltiplos centros de distribuição usando K-Means Clustering Ponderado
+        
+        Args:
+            n_clusters (int): Número de CDs a sugerir
+            
+        Returns:
+            list: Lista de dicionários, cada um contendo lat/lon de um CD sugerido
+        """
+        pontos = self.params.get_pontos_demanda()
+        
+        if len(pontos) < n_clusters:
+            return [] # Não há pontos suficientes para clusterizar
+
+        # Preparar dados para o KMeans (Lat, Lon)
+        # O KMeans do sklearn não suporta pesos diretos, então usamos
+        # a aproximação de repetir pontos ou apenas a geometria simples
+        # Dado que as lojas são poucas, a geometria simples é um bom começo,
+        # mas idealmente usaríamos um K-Means ponderado.
+        # Vamos usar geometria simples (distância) para os clusters,
+        # e depois calcular o CG de cada cluster.
+        
+        X = np.array([[p['latitude'], p['longitude']] for p in pontos])
+        
+        kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
+        kmeans.fit(X)
+        labels = kmeans.labels_
+        
+        # Para cada cluster, calcular o Centro de Gravidade Ponderado Real
+        centros_finais = []
+        
+        for i in range(n_clusters):
+            # Filtrar pontos deste cluster
+            indices = np.where(labels == i)[0]
+            cluster_pontos = [pontos[idx] for idx in indices]
+            
+            # Arrays
+            lats = np.array([p['latitude'] for p in cluster_pontos])
+            lons = np.array([p['longitude'] for p in cluster_pontos])
+            vols = np.array([p['demanda_anual_kg'] for p in cluster_pontos])
+            
+            # CG Ponderado do cluster
+            if np.sum(vols) > 0:
+                lat_c = np.sum(vols * lats) / np.sum(vols)
+                lon_c = np.sum(vols * lons) / np.sum(vols)
+            else:
+                lat_c = np.mean(lats)
+                lon_c = np.mean(lons)
+                
+            centros_finais.append({
+                'id': i+1,
+                'latitude': lat_c,
+                'longitude': lon_c,
+                'lojas_atendidas': [p['nome'] for p in cluster_pontos]
+            })
+            
+        return centros_finais
     
     
     def calcular_eoq(self):
         """
         Lote Econômico de Compra (Economic Order Quantity)
-        
-        Determina o lote Q* que minimiza o custo total:
-        
-        Q* = √(2 * D * S / H)
-        
-        Onde:
-        - D = Demanda anual (kg/ano)
-        - S = Custo por pedido/viagem (R$)
-        - H = Custo de manutenção de estoque (R$/kg/ano)
-        
-        Returns:
-            dict: Lote ótimo e custos associados
         """
         
         # Parâmetros
@@ -125,7 +161,7 @@ class OtimizacaoEspacial:
         Q_otimo = np.sqrt((2 * D * S) / H)
         
         # Número de pedidos por ano
-        num_pedidos = D / Q_otimo
+        num_pedidos = D / Q_otimo if Q_otimo > 0 else 0
         
         # Custos anuais
         custo_pedidos_ano = num_pedidos * S
@@ -135,7 +171,7 @@ class OtimizacaoEspacial:
         resultado = {
             'lote_otimo': Q_otimo,
             'num_pedidos': num_pedidos,
-            'frequencia_dias': 365 / num_pedidos,
+            'frequencia_dias': 365 / num_pedidos if num_pedidos > 0 else 0,
             'custo_pedidos_ano': custo_pedidos_ano,
             'custo_manutencao_ano': custo_manutencao_ano,
             'custo_total_anual': custo_total_ano,
@@ -153,16 +189,6 @@ class OtimizacaoEspacial:
     def calcular_estoque_seguranca(self):
         """
         Calcula estoque de segurança para cobrir variabilidade
-        
-        ES = Z * σ * √LT
-        
-        Onde:
-        - Z = Fator de serviço (ex: 1.65 para 95% de nível de serviço)
-        - σ = Desvio padrão da demanda diária
-        - LT = Lead time (dias)
-        
-        Returns:
-            dict: Estoque de segurança e ponto de pedido
         """
         
         # Estimativa de variabilidade (20% da demanda média)

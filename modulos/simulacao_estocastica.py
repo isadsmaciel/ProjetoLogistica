@@ -30,23 +30,23 @@ class SimulacaoMonteCarlo:
         """
         Executa a simulação de Monte Carlo por N iterações (anos).
         """
-        custos_totais = []
-        co2_totais = [] # Tópico Não Central: Sustentabilidade
-        rupturas_totais = 0
+        custos_transporte = []
+        custos_estoque = []
+        custos_falta = []
         
-        historico_exemplo = []
+        dias_com_ruptura_acumulado = 0 # Contador de dias totais de falta
         
-        # Parâmetros básicos
+        # Parâmetros básicos de custo
         custo_transporte_km = self.params.transporte['custo_total_km']
         custo_estoque_kg_ano = self.params.armazenagem['custo_manutencao_kg_ano']
-        custo_falta = 10.0 # R$/kg (Aumentado para refletir melhor o impacto da falta)
-        fator_emissao_co2_km = 0.200 # kg CO2 por km (estimativa van diesel)
+        custo_falta = 10.0 # R$/kg (Custo de oportunidade por falta)
+
+        custos_totais = [] # Lista para armazenar o custo total de cada iteração
         
         for i in range(iteracoes):
             custo_anual_transporte = 0
-            custo_anual_estoque = 0
+            custo_estoque_acumulado = 0
             custo_anual_falta = 0
-            km_rodados_ano = 0
             
             # Estado inicial
             estoque_atual = 1000
@@ -54,8 +54,7 @@ class SimulacaoMonteCarlo:
             dias_para_chegar = 0
             
             # Política de Revisão (r, Q) simplificada
-            demanda_media_total = (self.params.loja_taguatinga['demanda_media_dia'] + 
-                                  self.params.loja_ceilandia['demanda_media_dia'])
+            demanda_media_total = sum([p['demanda_anual_kg'] for p in self.params.get_pontos_demanda()]) / 365
             
             if com_galpao:
                 # GALPÃO CENTRAL
@@ -68,7 +67,6 @@ class SimulacaoMonteCarlo:
                 ponto_pedido = demanda_media_total * self.lt_medio + (demanda_media_total * 0.3)
             
             estoque_diario = []
-            ruptura_ocorreu = False # Flag para contar se houve ruptura no ano
             
             for dia in range(dias_ano):
                 # 1. Chegada de pedidos
@@ -90,10 +88,9 @@ class SimulacaoMonteCarlo:
                     vendido = estoque_atual
                     perdido = demanda_dia - estoque_atual
                     estoque_atual = 0
-                    if not ruptura_ocorreu:
-                        rupturas_totais += 1 # Conta 1x por ano se houve ruptura
-                        ruptura_ocorreu = True
+                    dias_com_ruptura_acumulado += 1 # Conta 1 dia de ruptura
                 
+                # Custo Falta
                 custo_anual_falta += perdido * custo_falta
                 
                 # 3. Revisão de Estoque e Pedido
@@ -104,19 +101,17 @@ class SimulacaoMonteCarlo:
                     
                     # Calcular custo transporte
                     if com_galpao:
-                        # Viagem Fábrica -> Galpão (20km ida e volta) + Galpão -> Lojas (15km ida e volta)
-                        # Simplificação: cada reabastecimento do galpão gera viagens de distribuição
-                        dist = 35 # km
+                        # Fábrica -> Galpão + Distribuição Capilar
+                        dist = 50 
                     else:
-                        # Viagem Direta para cada loja (40km ida e volta * 2 lojas = 80km)
-                        # Como estamos simulando estoque agregado, consideramos uma média
-                        dist = 60 # km (média ponderada para abastecer ambas)
+                        # Fábrica -> Lojas (direto e fragmentado)
+                        dist = 80 
                     
+                    # Custo viagem
                     custo_anual_transporte += dist * 2 * custo_transporte_km
-                    km_rodados_ano += dist * 2
                 
                 # Custo Estoque (manutenção diária)
-                custo_anual_estoque += (estoque_atual * custo_estoque_kg_ano) / 365
+                custo_estoque_acumulado += (estoque_atual * custo_estoque_kg_ano) / 365
                 
                 if i == 0: # Salvar histórico da primeira iteração
                     estoque_diario.append(estoque_atual)
@@ -124,20 +119,25 @@ class SimulacaoMonteCarlo:
             # Custo Fixo do Galpão
             custo_fixo = self.params.galpao['custo_fixo_total_ano'] if com_galpao else 0
             
-            total_ano = custo_anual_transporte + custo_anual_estoque + custo_anual_falta + custo_fixo
-            custos_totais.append(total_ano)
+            total_ano = custo_anual_transporte + custo_estoque_acumulado + custo_anual_falta + custo_fixo
             
-            # CO2
-            co2_totais.append((km_rodados_ano * fator_emissao_co2_km) / 1000)
+            custos_totais.append(total_ano)
+            custos_transporte.append(custo_anual_transporte)
+            custos_estoque.append(custo_estoque_acumulado)
+            custos_falta.append(custo_anual_falta)
             
             if i == 0:
                 historico_exemplo = estoque_diario
 
         return {
             'custo_medio': np.mean(custos_totais),
+            'custo_transporte_medio': np.mean(custos_transporte),
+            'custo_estoque_medio': np.mean(custos_estoque),
+            'custo_falta_medio': np.mean(custos_falta),
+            'custo_fixo': self.params.galpao['custo_fixo_total_ano'] if com_galpao else 0,
+            
             'desvio_padrao_custo': np.std(custos_totais),
-            'prob_ruptura': (rupturas_totais / iteracoes) * 100, # % de anos com ruptura
-            'co2_medio': np.mean(co2_totais),
+            'prob_ruptura': (dias_com_ruptura_acumulado / (iteracoes * dias_ano)) * 100, # % de dias com ruptura
             'distribuicao_custos': custos_totais,
             'historico_estoque_exemplo': historico_exemplo
         }

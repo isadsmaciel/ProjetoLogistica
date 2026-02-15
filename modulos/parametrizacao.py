@@ -15,10 +15,16 @@ class ParametrosLogistica:
     Classe que armazena todos os parâmetros do sistema logístico
     """
     
-    def __init__(self):
+    def __init__(self, lojas_adicionais=None, fabricas_adicionais=None):
         """
         Inicializa os parâmetros com valores baseados no documento
+        
+        Args:
+            lojas_adicionais (list): Lista de dicionários com lojas extras
+            fabricas_adicionais (list): Lista de dicionários com fábricas extras
         """
+        self.lojas_adicionais = lojas_adicionais if lojas_adicionais else []
+        self.fabricas_adicionais = fabricas_adicionais if fabricas_adicionais else []
         
         # ====================================================================
         # COORDENADAS GEOGRÁFICAS (Latitude, Longitude)
@@ -153,7 +159,7 @@ class ParametrosLogistica:
         Returns:
             list: Lista de dicionários com dados das lojas
         """
-        return [
+        pontos_base = [
             {
                 'nome': self.loja_taguatinga['nome'],
                 'latitude': self.loja_taguatinga['latitude'],
@@ -169,6 +175,36 @@ class ParametrosLogistica:
                                      self.loja_ceilandia['demanda_fds_dia'] * 105)  # ~91.250 kg/ano
             }
         ]
+        
+        # Adicionar lojas extras
+        for loja in self.lojas_adicionais:
+            # Calcular demanda anual estimada para a loja extra
+            dem_anual = (loja['demanda_media_dia'] * 260) + (loja['demanda_media_dia'] * 2 * 105)
+            pontos_base.append({
+                'nome': loja['nome'],
+                'latitude': loja['latitude'],
+                'longitude': loja['longitude'],
+                'demanda_anual_kg': dem_anual
+            })
+            
+        return pontos_base
+    
+    def get_pontos_fabrica(self):
+        """
+        Retorna lista de fábricas (base + extras)
+        """
+        fabricas = [self.fabrica]
+        
+        # Adicionar fábricas extras
+        for fab in self.fabricas_adicionais:
+            fabricas.append({
+                'nome': fab['nome'],
+                'latitude': fab['latitude'],
+                'longitude': fab['longitude'],
+                'capacidade_producao_dia': fab.get('capacidade_producao_dia', 1000)
+            })
+            
+        return fabricas
     
     
     def calcular_distancia_euclidiana(self, lat1, lon1, lat2, lon2):
